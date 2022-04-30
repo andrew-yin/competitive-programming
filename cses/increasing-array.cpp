@@ -1,22 +1,24 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int N;
 unsigned long long x[200000];
 
 int main() {
-    cin >> N;
-    for (int i = 0; i < N; i++) {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; i++) {
         cin >> x[i];
     }
+
     unsigned long long ans = 0;
-    unsigned long long max = *max_element(x, x+n);
-    for (int i = 0; i < N; i++) {
-        if (x[i] > x[i+1]) {
-            ans += max - x[i] - x[i+1];
-            x[i+1] = x[i];
+    for (int i = 1; i < n; i++) {
+        if (x[i] < x[i - 1]) {
+            ans += x[i - 1] - x[i];
+            x[i] = x[i - 1];
         }
     }
-    cout << ans;
-    return 0;
+    cout << ans << "\n";
 }
