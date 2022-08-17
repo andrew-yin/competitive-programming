@@ -3,11 +3,17 @@ using namespace std;
 
 void solve() {
     int n; cin >> n;
+    string s; cin >> s;
 
-    // 9 + 10*x <= n
-    // x <= (n-9)/10
-    int ans = (n-9)/10;
-    cout << (n >= 9 ? ans + 1 : ans) << "\n";
+    unsigned long long ans = n; 
+
+    for (int i = 1; i < n; i++) {
+        if (s[i] != s[i-1]) {
+            ans += i;
+        }
+    }
+
+    cout << ans << "\n"; 
 }
 
 
