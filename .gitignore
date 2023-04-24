@@ -1,3 +1,4 @@
-*
-
-!*.cpp
+*.bin
+.cph
+.vscode
+.DS_Store
