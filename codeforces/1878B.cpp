@@ -4,7 +4,14 @@ using namespace std;
 #define ll long long
 
 void solve() {
-
+    int n; cin >> n;
+    
+    int x = 5;
+    for (int i = 0; i < n; i++) {
+        cout << x << " ";
+        x++;
+    }
+    cout << "\n";
 }
 
 

@@ -1,34 +1,61 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+#define LL long long
+
+const int N = 500;
+const int L = 1E5;
+
+int n, l, k;
+LL d[N+1];
+LL a[N+1];
+LL mt[N+1][N]; 
  
-void solve(){
-    int n, l, k; cin >> n >> l >> k;
-    vector<int> D(n);
-    for (int i = 0; i < n; i++) cin >> D[i];
-    vector<int> S(n);
-    for (int i = 0; i < n; i++) cin >> S[i];
-    if (n <= 1) {
-        cout << S[0]*l;
-        return;
+void solve() {
+    cin >> n >> l >> k;
+    for (int i = 0; i < n; i++) {
+        cin >> d[i];
     }
-    vector<vector<int>> minTime(n, vector<int>(k+1, 0));
-    for (int i = n-1; i >= 1; i--) {
-        for (int j = 0; j <= k; j++) {
-            if (i == n-1 && j == 0) {
-                minTime[i][j] = S[i]*(l-D[i]);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    d[n] = l;
+    
+    for (int j = 0; j <= k; j++) {
+        mt[n][j] = 0;
+    }
+    for (int i = n-1; i >= 0; i--) {
+        mt[i][k] = a[i]*(d[i+1] - d[i]) + mt[i+1][k];
+    }
+    
+    for (int i = n-1; i >= 0; i--) {
+        for (int j = 0; j < k; j++) {
+            LL val = -1;
+            
+            for (int p = 1; i + p <= n && j + p - 1 <= k; p++) {
+                LL val2 = a[i]*(d[i+p] - d[i]) + mt[i+p][j+p-1];
+                
+                if (val == -1) {
+                    val = val2;
+                }
+                else {
+                    val = min(val, val2);
+                }
             }
-            else if (i == n-1 && j > 0) {
-                minTime[i][j] = min(S[i]*(l - D[i]), S[i-1]*(l-D[i]));
-            }
-            else if (i < n-1 && j == 0) {
-                minTime[i][j] = S[i]*(D[i+1]-D[i]) + minTime[i+1][j];
-            }
-            else {
-                minTime[i][j] = min(S[i]*(D[i+1] - D[i])+minTime[i+1][j], S[i-1]*(D[i+1]-D[i])+minTime[i+1][j-1]);
-            }
+            mt[i][j] = val;
+        }
+    } 
+
+    LL ans = -1;    
+    for (int j = 0; j <= k; j++) {
+        if (ans == -1) {
+            ans = mt[0][j];
+        }
+        else {
+            ans = min(ans, mt[0][j]);
         }
     }
-    cout << S[0]*D[1]+minTime[1][k];
+    cout << ans << "\n";
 }
  
  
